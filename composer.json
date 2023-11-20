@@ -1,4 +1,5 @@
 {
+  "name": "anhpt1999/laravel",
   "require": {
     "monolog/monolog": "2.0.*"
   }
