@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\PostController;
-use \App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,11 +21,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('posts',PostController::class);
+Route::apiResource('posts',PostController::class)->middleware('auth:sanctum');
 
 Route::apiResource('comment',CommentController::class);
 
-Route::post('/register', [AuthController::class,'register'])->middleware('auth:sanctum');
+Route::post('/register', [AuthController::class,'register']);
 Route::post('/login', [AuthController::class,'login']);
 Route::middleware('auth:sanctum')->post('/logout',[AuthController::class,'logout']);
 

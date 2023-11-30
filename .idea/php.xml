@@ -327,6 +327,7 @@
       <path value="$PROJECT_DIR$/crud/vendor/guzzle/guzzle" />
       <path value="$PROJECT_DIR$/crud/vendor/predictionio/predictionio" />
       <path value="$PROJECT_DIR$/crud/vendor/spatie/laravel-permission" />
+      <path value="$PROJECT_DIR$/crud/vendor/laravel/ui" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0">

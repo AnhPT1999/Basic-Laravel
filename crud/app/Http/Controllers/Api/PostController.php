@@ -17,6 +17,10 @@ class PostController extends Controller
     public function __construct(PostServiceInterface $service)
     {
         $this->service = $service;
+//        $this->middleware('permission:post-list|post-create|post-edit|post-delete', ['only' => ['index','show']]);
+//        $this->middleware('permission:post-create', ['only' => ['create','store']]);
+//        $this->middleware('permission:post-edit', ['only' => ['update']]);
+//        $this->middleware('permission:post-delete', ['only' => ['destroy']]);
     }
 
     /**

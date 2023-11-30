@@ -45,6 +45,7 @@ class CommentController extends Controller
         $sql = "select * from posts where status = '1' and id = '$pId'";
         $s = DB::select($sql);
         $post = Post::find($pId);
+
         if (is_null($post)) {
             return response()->json(['message' => 'Post not found'], 404);
         } elseif (empty($s)) {
