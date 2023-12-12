@@ -1,6 +1,0 @@
-{
-  "require": {
-    "ext-pdo": "*",
-    "laravel/passport": "^11.8"
-  }
-}

@@ -7,35 +7,35 @@ use App\Service\PostServiceInterface;
 
 class PostService implements PostServiceInterface
 {
-    private $service;
+    private $repository;
 
-    public function __construct(PostRepositoryInterface $service)
+    public function __construct(PostRepositoryInterface $repository)
     {
-        $this->service = $service;
+        $this->repository = $repository;
     }
 
     public function allPost($status)
     {
-        return $this->service->allPost($status);
+        return $this->repository->allPost($status);
     }
 
     public function storePost($data)
     {
-        return $this->service->storePost($data);
+        return $this->repository->storePost($data);
     }
 
     public function findPost($id)
     {
-        return $this->service->findPost($id);
+        return $this->repository->findPost($id);
     }
 
     public function updatePost($data, $id)
     {
-        return $this->service->updatePost($data,$id);
+        return $this->repository->updatePost($data,$id);
     }
 
     public function destroyPost($id)
     {
-        return $this->service->destroyPost($id);
+        return $this->repository->destroyPost($id);
     }
 }

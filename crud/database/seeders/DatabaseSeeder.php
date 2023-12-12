@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Doctrine\DBAL\Types\IntegerType;
 use Faker\Core\Number;
 use Illuminate\Database\Seeder;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\Cast\Int_;
 use Psy\Util\Str;
 use Ramsey\Uuid\Type\Integer;
+use function Laravel\Prompts\table;
 use function Webmozart\Assert\Tests\StaticAnalysis\numeric;
 
 class DatabaseSeeder extends Seeder
@@ -20,15 +22,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
 
         $faker = Faker::create();
-        foreach (range(1,2) as $index){
+        foreach (range(1,10) as $index){
             DB::table('posts')->insert([
                 'title' => $faker->title,
                 'description' => $faker->text,
@@ -36,12 +32,12 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-//        $fakerComment = Faker::create();
-//        foreach (range(1,10) as $i){
-//            DB::table('comments')->insert([
-//                'postId' => $fakerComment->randomNumber(2),
-//                'content' => $fakerComment->text,
-//            ]);
-//        }
+        $fakerComment = Faker::create();
+        foreach (range(1,30) as $i){
+            DB::table('comments')->insert([
+                'postId' => random_int(DB::table('posts')->min('id'),DB::table('posts')->max('id')),
+                'content' => $fakerComment->text,
+            ]);
+        }
     }
 }

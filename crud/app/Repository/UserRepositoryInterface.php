@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Repository;
+
+interface UserRepositoryInterface
+{
+    public function allUser();
+    public function storeUser($data);
+    public function findUser($id);
+    public function updateUser($data, $id);
+    public function destroyUser($id);
+    public function register($request);
+    public function login($request);
+}

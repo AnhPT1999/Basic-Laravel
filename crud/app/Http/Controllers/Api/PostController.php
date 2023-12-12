@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Jobs\TestCreatePostJob;
 use App\Models\Post;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Repository\impl\PostRepository;
-use App\Service\impl\PostService;
 use App\Service\PostServiceInterface;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class PostController extends Controller
 {
     private $service;
+    private $job;
 
-    public function __construct(PostServiceInterface $service)
+    public function __construct(PostServiceInterface $service, TestCreatePostJob $createPostJob)
     {
         $this->service = $service;
-//        $this->middleware('permission:post-list|post-create|post-edit|post-delete', ['only' => ['index','show']]);
-//        $this->middleware('permission:post-create', ['only' => ['create','store']]);
-//        $this->middleware('permission:post-edit', ['only' => ['update']]);
-//        $this->middleware('permission:post-delete', ['only' => ['destroy']]);
+        $this->job = $createPostJob;
     }
 
     /**
@@ -28,13 +28,15 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $status = $request->integer('status');
-        if ($status==0 || $status==1){
-            $posts = $this->service->allPost($status);
-            return new PostResource($posts);
-        } else{
-            return response()->json(['message' => 'ko co status Chi nhan status 0 & 1'], 200);
-        }
+        return Cache::remember("index", 10, function () use ($request){
+            $status = $request->integer('status');
+            if ($status == 0 || $status == 1) {
+                $posts = $this->service->allPost($status);
+                return new PostResource($posts);
+            } else {
+                return response()->json(['message' => 'ko co status Chi nhan status 0 & 1'], 200);
+            }
+        });
     }
 
     /**
@@ -48,6 +50,19 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+//    public function store(Request $request)
+//    {
+//        $data = $request->validate([
+//            'title' => 'required|string|max:70',
+//            'description' => 'required|string|max:255',
+//            'status' => 'required|int'
+//
+//        ]);
+//
+//        return $this->service->storePost($data);
+//    }
+
+// Test job
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -56,8 +71,11 @@ class PostController extends Controller
             'status' => 'required|int'
 
         ]);
+        $createPost = $this->service->storePost($data);
 
-        return $this->service->storePost($data);
+        TestCreatePostJob::dispatch($createPost);
+
+        return response()->json(['message' => 'successful'], 200);
     }
 
     /**

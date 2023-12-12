@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Service\CommentServiceInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
 {
@@ -24,8 +23,8 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $posts = $this->service->allComment();
-        return new CommentResource($posts);
+        $comment = $this->service->allComment();
+        return new CommentResource($comment);
     }
 
     /**
@@ -42,13 +41,14 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $pId = $request->get('postId');
-        $sql = "select * from posts where status = '1' and id = '$pId'";
-        $s = DB::select($sql);
+        //$sql = "select * from posts where status = '1' and id = '$pId'";
+        //$s = DB::select($sql);
         $post = Post::find($pId);
+        //$a = $post->get();
 
         if (is_null($post)) {
             return response()->json(['message' => 'Post not found'], 404);
-        } elseif (empty($s)) {
+        } elseif ($post->status !== 1) { //empty($s)
             return response()->json(['message' => 'Post not public'], 404);
         } else {
             $data = $request->validate([

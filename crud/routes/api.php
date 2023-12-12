@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,9 +30,14 @@ Route::post('/register', [AuthController::class,'register']);
 Route::post('/login', [AuthController::class,'login']);
 Route::middleware('auth:sanctum')->post('/logout',[AuthController::class,'logout']);
 
-Route::get('get-post', [PostController::class,'getAllPost']);
-Route::get('get-post-by-id/{id}',[PostController::class,'getPostById']);
-Route::post('add-post', [PostController::class,'addPost']);
-Route::put('update-post/{id}',[PostController::class,'updatePost']);
-Route::delete('delete-post/{id}',[PostController::class,'deletePost']);
+// Notification
+Route::get('user-notify', [NotificationController::class, 'index']);
+
+//Route::get('get-post', [PostController::class,'getAllPost']);
+//Route::get('get-post-by-id/{id}',[PostController::class,'getPostById']);
+//Route::post('add-post', [PostController::class,'addPost']);
+//Route::put('update-post/{id}',[PostController::class,'updatePost']);
+//Route::delete('delete-post/{id}',[PostController::class,'deletePost']);
+
+Route::post('createPost', [PostController::class,'store']);
 

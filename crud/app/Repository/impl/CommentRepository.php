@@ -21,6 +21,7 @@ class CommentRepository implements CommentRepositoryInterface
     }
 
     //$id = postId
+    // find all comment of post by postId
     public function findComment($id)
     {
         $sql = "select * from comments where postId ='$id'";
